@@ -40,31 +40,23 @@ namespace Two_Sum
         public int[] TwoSum(int[] nums, int target)
         {
             var dicValues = PutItemsAsKeys_IndexesAsValues(nums);
-            var listOfIndexes = new List<int>();
 
             for(int i=0; i<nums.Length; i++)
             {
                 var expected = target - nums[i];
                 if (dicValues.ContainsKey(expected))
                 {
-                    AddIndexesToListIfNotExist(listOfIndexes, dicValues[expected], i);
+                    foreach(var expIndex in dicValues[expected])
+                    {
+                        if(expIndex != i)
+                            return new int[] { i, expIndex };
+                    }                    
                 }
             }
-            
-            return listOfIndexes.ToArray();
-        }
 
-        private void AddIndexesToListIfNotExist(List<int> retList, List<int> inputList, int currentIndex)
-        {
-            foreach(var item in inputList)
-            {
-                if (item != currentIndex && !retList.Contains(item))
-                {
-                    retList.Add(item);
-                }
-            }
+            return new int[] { };
         }
-
+        
         private Dictionary<int, List<int>> PutItemsAsKeys_IndexesAsValues(int[] nums)
         {
             var dictionary = new Dictionary<int, List<int>>();
