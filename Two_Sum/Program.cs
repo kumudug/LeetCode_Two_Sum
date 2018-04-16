@@ -39,43 +39,23 @@ namespace Two_Sum
     {
         public int[] TwoSum(int[] nums, int target)
         {
-            var dicValues = PutItemsAsKeys_IndexesAsValues(nums);
+            //Start adding to dictionary
+            var dicValues = new Dictionary<int, int>();
 
             for(int i=0; i<nums.Length; i++)
             {
                 var expected = target - nums[i];
                 if (dicValues.ContainsKey(expected))
                 {
-                    foreach(var expIndex in dicValues[expected])
-                    {
-                        if(expIndex != i)
-                            return new int[] { i, expIndex };
-                    }                    
+                    return new int[] { i, dicValues[expected] };
+                }
+                else if(!dicValues.ContainsKey(nums[i]))
+                {
+                    dicValues.Add(nums[i], i);
                 }
             }
 
             return new int[] { };
-        }
-        
-        private Dictionary<int, List<int>> PutItemsAsKeys_IndexesAsValues(int[] nums)
-        {
-            var dictionary = new Dictionary<int, List<int>>();
-
-            for(int i=0; i<nums.Length; i++)
-            {
-                if (dictionary.ContainsKey(nums[i]))
-                {
-                    var existingVal = dictionary[nums[i]];
-                    existingVal.Add(i);
-                    dictionary[nums[i]] = existingVal;
-                }
-                else
-                {
-                    dictionary.Add(nums[i], new List<int>() { i });
-                }
-            }
-
-            return dictionary;
-        }
+        }      
     }
 }
